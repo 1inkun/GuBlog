@@ -1,10 +1,9 @@
 package handler
 
 import (
-	"log"
-	"net/http"
-
 	"github.com/1inkun/GuBlog/internal/service"
+	"github.com/1inkun/GuBlog/internal/types"
+	"github.com/1inkun/GuBlog/internal/utils"
 	"github.com/labstack/echo/v5"
 )
 
@@ -18,7 +17,15 @@ func NewPostHandler(postService *service.PostService) *PostHandler {
 	}
 }
 
-func (h *PostHandler) GetPostLists(c *echo.Context) error {
-	log.Println("日志中间件测试信息")
-	return c.String(http.StatusOK, "test")
+func (h *PostHandler) GetPostList(c *echo.Context) error {
+	ctx := c.Request().Context()
+	var req types.Pagination
+	if err := c.Bind(&req); err != nil {
+		return err
+	}
+	data, err := h.postService.GetPostList(ctx, req.Page, req.PageSize)
+	if err != nil {
+		return err
+	}
+	return utils.NewResponse(c, "获取成功", data)
 }

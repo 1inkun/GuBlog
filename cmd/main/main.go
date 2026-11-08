@@ -35,7 +35,7 @@ func main() {
 	defer rdb.Close()
 
 	// 注册优雅关闭
-	r := router.InitRouter(db)
+	r := router.InitRouter(db, rdb)
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
