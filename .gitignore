@@ -34,4 +34,5 @@ go.work.sum
 
 # config
 config.yaml
+testdata.sql
 data.db

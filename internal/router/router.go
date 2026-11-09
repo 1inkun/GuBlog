@@ -8,6 +8,7 @@ import (
 
 	"github.com/1inkun/GuBlog/internal/database"
 	"github.com/1inkun/GuBlog/internal/handler"
+	"github.com/1inkun/GuBlog/internal/middlewares"
 	"github.com/1inkun/GuBlog/internal/service"
 	"github.com/labstack/echo/v5"
 	"github.com/labstack/echo/v5/middleware"
@@ -17,6 +18,7 @@ import (
 func InitRouter(db *sql.DB, rdb *redis.Client) *echo.Echo {
 	r := echo.New()
 	// 配置错误处理
+	r.HTTPErrorHandler = middlewares.HTTPErrorHandler
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
 	// 配置限流
 	r.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(10.0)))
@@ -50,7 +52,8 @@ func InitRouter(db *sql.DB, rdb *redis.Client) *echo.Echo {
 	apiv1 := r.Group("/api/v1")
 	post := apiv1.Group("/post")
 	{
-		post.GET("/list", postHandler.GetPostList)
+		post.GET("", postHandler.GetPostData)
+		post.GET("/:post_id", postHandler.GetPostDataById)
 	}
 	return r
 }

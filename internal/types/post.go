@@ -15,6 +15,15 @@ type PostData struct {
 	CreateAt     time.Time `json:"create_at"`
 }
 
+type PostDataRes struct {
+	Title     string     `json:"title"`
+	Author    PostAuthor `json:"author"`
+	Tags      []TagData  `json:"tags"`
+	Body      string     `json:"body"`
+	ViewCount int64      `json:"view_count"`
+	PublishAt time.Time  `json:"publish_at"`
+}
+
 type PostListRes struct {
 	PostId int64     `json:"post_id"`
 	Tags   []TagData `json:"tags"`

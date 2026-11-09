@@ -2,50 +2,50 @@ CREATE TABLE IF NOT EXISTS "authors" (
 	"id" INTEGER NOT NULL,
 	"nickname" VARCHAR NOT NULL,
 	"avatar_file" VARCHAR,
-	"email" VARCHAR,
+	"email" VARCHAR NOT NULL,
 	"github" VARCHAR,
 	"twitter" VARCHAR,
 	"bilibili" VARCHAR,
 	"active" BOOLEAN,
-	"create_at" TIMESTAMP,
+	"create_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY("id")
 );
 
 CREATE TABLE IF NOT EXISTS "categories" (
 	"id" INTEGER NOT NULL,
-	"parent_id" INTEGER,
-	"name" VARCHAR,
+	"parent_id" INTEGER NOT NULL,
+	"name" VARCHAR NOT NULL,
 	"description" TEXT,
-	"create_at" TIMESTAMP,
+	"create_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY("id")
 );
 
 CREATE TABLE IF NOT EXISTS "post_tags" (
 	"id" INTEGER NOT NULL,
-	"post_id" INTEGER,
-	"tag_id" INTEGER,
-	"create_at" TIMESTAMP,
+	"post_id" INTEGER NOT NULL,
+	"tag_id" INTEGER NOT NULL,
+	"create_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY("id")
 );
 
 CREATE TABLE IF NOT EXISTS "tags" (
 	"id" INTEGER NOT NULL,
-	"name" VARCHAR,
-	"usage_count" INTEGER,
-	"create_at" TIMESTAMP,
+	"name" VARCHAR NOT NULL,
+	"usage_count" INTEGER DEFAULT 0,
+	"create_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY("id")
 );
 
 CREATE TABLE IF NOT EXISTS "posts" (
 	"id" INTEGER NOT NULL,
-	"author_id" INTEGER,
-	"categories_id" INTEGER,
-	"title" VARCHAR,
-	"body" TEXT,
+	"author_id" INTEGER NOT NULL,
+	"categories_id" INTEGER NOT NULL,
+	"title" VARCHAR NOT NULL,
+	"body" TEXT NOT NULL,
 	"publish_at" TIMESTAMP,
-	"status" INTEGER,
-	"view_count" INTEGER,
+	"status" INTEGER DEFAULT 0,
+	"view_count" INTEGER DEFAULT 0,
 	"update_at" TIMESTAMP,
-	"create_at" TIMESTAMP,
+	"create_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY("id")
 );
