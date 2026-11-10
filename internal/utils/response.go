@@ -40,7 +40,7 @@ func NewResponse(c *echo.Context, msg string, data any) error {
 func NewBusinessResp(c *echo.Context, e types.BusinessError) error {
 	res := BusinessErrResp{
 		ErrCode: int(e.ErrCode),
-		Status:  "faile",
+		Status:  "fail",
 		Msg:     e.Msg,
 		Detail:  e.Detail,
 	}

@@ -45,15 +45,33 @@ func InitRouter(db *sql.DB, rdb *redis.Client) *echo.Echo {
 
 	// 初始化控制器
 	postQuery := database.NewPostQuery(db, rdb)
+	tagQuery := database.NewTagQuery(db, rdb)
+	authorQuery := database.NewAuthorQuery(db, rdb)
+
 	postService := service.NewPostService(postQuery)
+	tagService := service.NewTagService(tagQuery)
+	authorService := service.NewAuthorService(authorQuery)
+
 	postHandler := handler.NewPostHandler(postService)
+	tagHandler := handler.NewTagHandler(tagService)
+	authorHandler := handler.NewAuthorHandler(authorService)
 
 	// 注册路由
 	apiv1 := r.Group("/api/v1")
+	author := apiv1.Group("/author")
+	{
+		author.GET("/:author_id", authorHandler.GetAuthorDataById)
+	}
 	post := apiv1.Group("/post")
 	{
 		post.GET("", postHandler.GetPostData)
+		post.GET("/recent", postHandler.GetRecentPostData)
+		post.GET("/hot", postHandler.GetHotPostData)
 		post.GET("/:post_id", postHandler.GetPostDataById)
+	}
+	tag := apiv1.Group("/tag")
+	{
+		tag.GET("", tagHandler.GetTagList)
 	}
 	return r
 }

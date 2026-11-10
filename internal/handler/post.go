@@ -65,3 +65,11 @@ func (h *PostHandler) GetPostData(c *echo.Context) error {
 	}
 	return utils.NewResponse(c, "查询成功", data)
 }
+
+func (h *PostHandler) GetRecentPostData(c *echo.Context) error {
+	return utils.NewResponse(c, "获取成功", nil)
+}
+
+func (h *PostHandler) GetHotPostData(c *echo.Context) error {
+	return utils.NewResponse(c, "获取成功", nil)
+}
